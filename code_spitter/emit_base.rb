@@ -5,7 +5,7 @@ class CodeSpitter
     private
 
     def command_comment(command, arg1, arg2)
-      +"// #{command} #{arg1} #{arg2}"
+      +"// #{command} #{arg1} #{arg2}".sub(/\s+\z/, '')
     end
   end
 end

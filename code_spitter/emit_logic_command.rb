@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CodeSpitter
-  class EmitCompareCommand < CodeSpitter::EmitBase
+  class EmitLogicCommand
     def call(command)
       case command
       when 'eq' then eq_instructions

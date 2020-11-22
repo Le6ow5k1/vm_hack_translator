@@ -12,7 +12,7 @@ class CodeSpitter
 
     private
 
-    def one_arg_intstructions(operation)
+    def one_arg_instructions(operation)
       <<-HACK
 @SP
 A=M-1

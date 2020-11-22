@@ -2,7 +2,7 @@
 
 require_relative 'emit_base'
 require_relative 'emit_arithmetic_command'
-require_relative 'emit_compare_command'
+require_relative 'emit_logic_command'
 
 class CodeSpitter
   class EmitArithmeticLogicCommand < CodeSpitter::EmitBase
@@ -18,6 +18,11 @@ class CodeSpitter
       not
     ].freeze
 
+    def initialize
+      @emit_arithmetic_command = EmitArithmeticCommand.new
+      @emit_logic_command = EmitLogicCommand.new
+    end
+
     def call(command, arg1, arg2)
       raise ArgumentError unless COMMANDS.include?(command)
 
@@ -30,39 +35,39 @@ class CodeSpitter
     private
 
     def add_instructions
-      EmitArithmeticCommand.new.call(2, '+')
+      @emit_arithmetic_command.call(2, '+')
     end
 
     def sub_instructions
-      EmitArithmeticCommand.new.call(2, '-')
+      @emit_arithmetic_command.call(2, '-')
     end
 
     def neg_instructions
-      EmitArithmeticCommand.new.call(1, '-')
+      @emit_arithmetic_command.call(1, '-')
     end
 
     def eq_instructions
-      EmitCompareCommand.new.call('gt')
+      @emit_logic_command.call('eq')
     end
 
     def gt_instructions
-      EmitCompareCommand.new.call('gt')
+      @emit_logic_command.call('gt')
     end
 
     def lt_instructions
-      EmitCompareCommand.new.call('gt')
+      @emit_logic_command.call('lt')
     end
 
     def and_instructions
-      EmitArithmeticCommand.new.call(2, '&')
+      @emit_arithmetic_command.call(2, '&')
     end
 
     def or_instructions
-      EmitArithmeticCommand.new.call(2, '|')
+      @emit_arithmetic_command.call(2, '|')
     end
 
     def not_instructions
-      EmitArithmeticCommand.new.call(1, '!')
+      @emit_arithmetic_command.call(1, '!')
     end
   end
 end
