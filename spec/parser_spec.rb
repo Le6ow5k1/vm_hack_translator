@@ -3,8 +3,12 @@ require 'spec_helper'
 require_relative '../parser'
 
 describe Parser do
+  let(:parser) do
+    described_class.new(nil)
+  end
+
   describe '#parse_line' do
-    subject(:parse_line) { described_class.new.parse_line(line) }
+    subject(:parse_line) { parser.parse_line(line) }
 
     context 'add command' do
       let(:line) { '  add ' }
