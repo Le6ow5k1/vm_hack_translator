@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'code_spitter/emit_arithmetic_logical_command'
+require_relative 'code_spitter/emit_memory_access_command'
+
 # This class takes a parsed VM command and emits Hack assembly instructions
 # that implement that command on the Hack computer
 class CodeSpitter

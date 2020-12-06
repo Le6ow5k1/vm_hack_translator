@@ -1,11 +1,7 @@
-require_relative ''
+require_relative 'runner'
 
 file_path = ARGV.first
 
 raise if !file_path
 
-reader = Reader.new(file_path)
-parser = Parser.new(reader)
-code_spitter = CodeSpitter.new
-translated = Translator.new(parser, code_spitter).call
-Writer.new(translated).call
+Runner.new.call(file_path)
