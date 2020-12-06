@@ -20,11 +20,11 @@ class CodeSpitter
     push
   ].freeze
 
-  def emit(command:, arg1:, arg2:)
+  def call(command:, arg1:, arg2:)
     if ARITHMETIC_LOGICAL_COMMANDS.include?(command)
-      EmitArithmeticLogicalCommand.call(command, arg1, arg2)
-    elsif MEMORY_ACCESS_COMMANDS.include(command)
-      EmitMemoryAccessCommand.call(command, arg1, arg2)
+      EmitArithmeticLogicalCommand.new.call(command, arg1, arg2)
+    elsif MEMORY_ACCESS_COMMANDS.include?(command)
+      EmitMemoryAccessCommand.new.call(command, arg1, arg2)
     end
   end
 end

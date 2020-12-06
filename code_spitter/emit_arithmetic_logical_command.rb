@@ -2,30 +2,18 @@
 
 require_relative 'emit_base'
 require_relative 'emit_arithmetic_command'
-require_relative 'emit_logic_command'
+require_relative 'emit_logical_command'
 
 class CodeSpitter
-  class EmitArithmeticLogicCommand < CodeSpitter::EmitBase
-    COMMANDS = %w[
-      add
-      sub
-      neg
-      eq
-      gt
-      lt
-      and
-      or
-      not
-    ].freeze
-
+  class EmitArithmeticLogicalCommand < CodeSpitter::EmitBase
     def initialize
+      super
+
       @emit_arithmetic_command = EmitArithmeticCommand.new
       @emit_logic_command = EmitLogicCommand.new
     end
 
     def call(command, arg1, arg2)
-      raise ArgumentError unless COMMANDS.include?(command)
-
       result = command_comment(command, arg1, arg2)
       result << "\n\n"
       result << send("#{command}_instructions")

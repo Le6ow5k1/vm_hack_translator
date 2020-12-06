@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-require_relative '../../code_spitter/emit_arithmetic_logic_command'
+require_relative '../../code_spitter/emit_arithmetic_logical_command'
 
-describe CodeSpitter::EmitArithmeticLogicCommand do
+describe CodeSpitter::EmitArithmeticLogicalCommand do
   describe '#call' do
     subject(:call) { described_class.new.call(command, arg1, arg2) }
 
