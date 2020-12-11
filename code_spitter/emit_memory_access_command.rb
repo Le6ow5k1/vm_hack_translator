@@ -6,9 +6,9 @@ require_relative 'emit_pop_command'
 
 class CodeSpitter
   class EmitMemoryAccessCommand < CodeSpitter::EmitBase
-    def initialize
-      @emit_push_command = CodeSpitter::EmitPushCommand.new
-      @emit_pop_command = CodeSpitter::EmitPopCommand.new
+    def initialize(file_name)
+      @emit_push_command = CodeSpitter::EmitPushCommand.new(file_name)
+      @emit_pop_command = CodeSpitter::EmitPopCommand.new(file_name)
     end
 
     def call(command, segment, value)

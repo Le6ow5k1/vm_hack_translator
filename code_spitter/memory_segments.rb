@@ -12,6 +12,7 @@ class CodeSpitter
 
     CONSTANT = 'constant'
     POINTER = 'pointer'
+    STATIC = 'static'
 
     module_function
 
@@ -21,6 +22,13 @@ class CodeSpitter
 
     def pointer_toggle_to_segment(toggle)
       toggle == '0' ? 'THIS' : 'THAT'
+    end
+
+    def build_static_var_name(file_name, step_from_base)
+      without_ext = file_name.sub(/\..*\z/, '')
+      first_letter = without_ext[0]
+
+      "#{first_letter.upcase}#{without_ext[1..-1]}.#{step_from_base}"
     end
   end
 end

@@ -23,11 +23,21 @@ class CodeSpitter
     push
   ].freeze
 
+  def initialize(file_path)
+    @file_path = file_path
+  end
+
   def call(command:, arg1:, arg2:)
     if ARITHMETIC_LOGICAL_COMMANDS.include?(command)
       EmitArithmeticLogicalCommand.new.call(command, arg1, arg2)
     elsif MEMORY_ACCESS_COMMANDS.include?(command)
-      EmitMemoryAccessCommand.new.call(command, arg1, arg2)
+      EmitMemoryAccessCommand.new(file_name).call(command, arg1, arg2)
     end
+  end
+
+  private
+
+  def file_name
+    @file_name ||= @file_path.split('/').last
   end
 end

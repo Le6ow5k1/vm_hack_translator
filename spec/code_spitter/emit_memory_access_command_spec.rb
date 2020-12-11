@@ -4,8 +4,9 @@ require_relative '../../code_spitter/emit_memory_access_command'
 
 describe CodeSpitter::EmitMemoryAccessCommand do
   describe '#call' do
-    subject(:call) { described_class.new.call(command, arg1, arg2) }
+    subject(:call) { described_class.new(file_name).call(command, arg1, arg2) }
 
+    let(:file_name) { nil }
     let(:arg1) { nil }
     let(:arg2) { nil }
 
@@ -136,6 +137,32 @@ M=M+1
       end
     end
 
+    context 'push static 1' do
+      let(:command) { 'push' }
+      let(:file_name) { 'Foo.vm' }
+      let(:arg1) { 'static' }
+      let(:arg2) { '1' }
+      let(:expected_instructions) do
+      <<-HACK
+// push static 1
+
+@Foo.1
+D=M
+
+@SP
+A=M
+M=D
+
+@SP
+M=M+1
+      HACK
+      end
+
+      it do
+        is_expected.to eq(expected_instructions)
+      end
+    end
+
     context 'pop arg 11' do
       let(:command) { 'pop' }
       let(:arg1) { 'argument' }
@@ -229,6 +256,32 @@ A=M
 D=M
 
 @THAT
+M=D
+      HACK
+      end
+
+      it do
+        is_expected.to eq(expected_instructions)
+      end
+    end
+
+    context 'pop static 1' do
+      let(:command) { 'pop' }
+      let(:file_name) { 'hello_world.vm' }
+      let(:arg1) { 'static' }
+      let(:arg2) { '1' }
+      let(:expected_instructions) do
+      <<-HACK
+// pop static 1
+
+@SP
+M=M-1
+
+@SP
+A=M
+D=M
+
+@Hello_world.1
 M=D
       HACK
       end

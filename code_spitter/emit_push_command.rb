@@ -4,12 +4,18 @@ require_relative 'memory_segments'
 
 class CodeSpitter
   class EmitPushCommand
+    def initialize(file_name)
+      @file_name = file_name
+    end
+
     def call(segment, arg)
       case segment
       when MemorySegments::CONSTANT
         return push_constant_instructions(arg)
       when MemorySegments::POINTER
         return push_pointer_instructions(arg)
+      when MemorySegments::STATIC
+        return push_static_instructions(arg)
       end
 
       base_address_label = MemorySegments.segment_to_base_address_label(segment)
@@ -44,6 +50,18 @@ D=A
 
       <<-HACK
 @#{segment_name}
+D=M
+
+#{persist_d_to_sp_instructions}
+#{advance_sp_instructions}
+      HACK
+    end
+
+    def push_static_instructions(step_from_base)
+      var_name = MemorySegments.build_static_var_name(@file_name, step_from_base)
+
+      <<-HACK
+@#{var_name}
 D=M
 
 #{persist_d_to_sp_instructions}
