@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 require_relative 'emit_base'
+require_relative 'emit_push_command'
+require_relative 'emit_pop_command'
 
 class CodeSpitter
   class EmitMemoryAccessCommand < CodeSpitter::EmitBase
+    def initialize
+      @emit_push_command = CodeSpitter::EmitPushCommand.new
+      @emit_pop_command = CodeSpitter::EmitPopCommand.new
+    end
+
     def call(command, segment, value)
       result = command_comment(command, segment, value)
       result << "\n\n"
@@ -16,31 +23,10 @@ class CodeSpitter
     def command_instructions(command, segment, value)
       case command
       when 'push'
-        push_instructions(segment, value)
+        @emit_push_command.call(segment, value)
       when 'pop'
-        pop_instructions(segment, value)
+        @emit_pop_command.call(segment, value)
       end
-    end
-
-    def push_instructions(segment, value)
-      case segment
-      when 'constant'
-        push_constant_instructions(value)
-      end
-    end
-
-    def push_constant_instructions(value)
-      <<-HACK
-@#{value}
-D=A
-
-@SP
-A=M
-M=D
-
-@SP
-M=M+1
-      HACK
     end
   end
 end

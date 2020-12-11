@@ -33,5 +33,57 @@ M=M+1
         is_expected.to eq(expected_instructions)
       end
     end
+
+    context 'push local 3' do
+      let(:command) { 'push' }
+      let(:arg1) { 'local' }
+      let(:arg2) { '3' }
+      let(:expected_instructions) do
+      <<-HACK
+// push local 3
+
+@LCL
+A=M+3
+D=M
+
+@SP
+A=M
+M=D
+
+@SP
+M=M+1
+      HACK
+      end
+
+      it do
+        is_expected.to eq(expected_instructions)
+      end
+    end
+
+    context 'pop arg 11' do
+      let(:command) { 'pop' }
+      let(:arg1) { 'argument' }
+      let(:arg2) { '11' }
+      let(:expected_instructions) do
+      <<-HACK
+// pop argument 11
+
+@SP
+M=M-1
+
+@SP
+A=M
+D=M
+
+@ARG
+A=M+11
+M=D
+      HACK
+      end
+
+      it do
+        is_expected.to eq(expected_instructions)
+      end
+    end
   end
 end
