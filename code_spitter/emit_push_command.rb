@@ -4,11 +4,12 @@ require_relative 'memory_segments'
 
 class CodeSpitter
   class EmitPushCommand
-    CONSTANT_SEGMENT_NAME = 'constant'
-
     def call(segment, arg)
-      if segment == CONSTANT_SEGMENT_NAME
+      case segment
+      when MemorySegments::CONSTANT
         return push_constant_instructions(arg)
+      when MemorySegments::POINTER
+        return push_pointer_instructions(arg)
       end
 
       base_address_label = MemorySegments.segment_to_base_address_label(segment)
@@ -23,12 +24,8 @@ class CodeSpitter
 A=M+#{step_from_base}
 D=M
 
-@SP
-A=M
-M=D
-
-@SP
-M=M+1
+#{persist_d_to_sp_instructions}
+#{advance_sp_instructions}
       HACK
     end
 
@@ -37,13 +34,34 @@ M=M+1
 @#{value}
 D=A
 
+#{persist_d_to_sp_instructions}
+#{advance_sp_instructions}
+      HACK
+    end
+
+    def push_pointer_instructions(toggle)
+      segment_name = MemorySegments.pointer_toggle_to_segment(toggle)
+
+      <<-HACK
+@#{segment_name}
+D=M
+
+#{persist_d_to_sp_instructions}
+#{advance_sp_instructions}
+      HACK
+    end
+
+    def persist_d_to_sp_instructions
+      <<-HACK
 @SP
 A=M
 M=D
-
-@SP
-M=M+1
       HACK
+    end
+
+    def advance_sp_instructions
+      "@SP
+M=M+1"
     end
   end
 end
