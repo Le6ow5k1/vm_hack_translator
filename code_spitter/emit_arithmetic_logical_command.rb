@@ -10,7 +10,7 @@ class CodeSpitter
       super
 
       @emit_arithmetic_command = EmitArithmeticCommand.new
-      @emit_logic_command = EmitLogicCommand.new
+      @emit_logical_command = EmitLogicalCommand.new
     end
 
     def call(command, arg1, arg2)
@@ -35,15 +35,15 @@ class CodeSpitter
     end
 
     def eq_instructions
-      @emit_logic_command.call('eq')
+      @emit_logical_command.call('eq')
     end
 
     def gt_instructions
-      @emit_logic_command.call('gt')
+      @emit_logical_command.call('gt')
     end
 
     def lt_instructions
-      @emit_logic_command.call('lt')
+      @emit_logical_command.call('lt')
     end
 
     def and_instructions

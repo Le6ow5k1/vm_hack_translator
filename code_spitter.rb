@@ -25,13 +25,15 @@ class CodeSpitter
 
   def initialize(file_path)
     @file_path = file_path
+    @emit_arithmetic_logical_command = EmitArithmeticLogicalCommand.new
+    @emit_memory_access_command = EmitMemoryAccessCommand.new(file_name)
   end
 
   def call(command:, arg1:, arg2:)
     if ARITHMETIC_LOGICAL_COMMANDS.include?(command)
-      EmitArithmeticLogicalCommand.new.call(command, arg1, arg2)
+      @emit_arithmetic_logical_command.call(command, arg1, arg2)
     elsif MEMORY_ACCESS_COMMANDS.include?(command)
-      EmitMemoryAccessCommand.new(file_name).call(command, arg1, arg2)
+      @emit_memory_access_command.call(command, arg1, arg2)
     end
   end
 
