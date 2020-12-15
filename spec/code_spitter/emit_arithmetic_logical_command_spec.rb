@@ -89,24 +89,49 @@ M=-D
 // eq
 
 @SP
-A=M-1
+M=M-1
+
+@SP
+A=M
 D=M
 
-@POSITIVE
+@SP
+M=M-1
+
+@SP
+A=M
+
+D=M-D
+
+@POSITIVE1
 D;JEQ
 
-@NEGATIVE
+@NEGATIVE1
 D;JNE
 
-(POSITIVE)
+(NEGATIVE1)
   @SP
-  A=M-1
-  M=1
-
-(NEGATIVE)
-  @SP
-  A=M-1
+  A=M
   M=0
+
+  @SP
+  M=M+1
+
+  @FINISH1
+  0;JMP
+
+(POSITIVE1)
+  @SP
+  A=M
+  M=-1
+
+  @SP
+  M=M+1
+
+  @FINISH1
+  0;JMP
+
+(FINISH1)
       HACK
       end
 
@@ -129,24 +154,42 @@ A=M
 D=M
 
 @SP
-A=M-1
-D=D-M
+M=M-1
 
-@POSITIVE
+@SP
+A=M
+
+D=M-D
+
+@POSITIVE1
 D;JGT
 
-@NEGATIVE
-0;JMP
+@NEGATIVE1
+D;JLE
 
-(POSITIVE)
+(NEGATIVE1)
   @SP
-  A=M-1
-  M=1
-
-(NEGATIVE)
-  @SP
-  A=M-1
+  A=M
   M=0
+
+  @SP
+  M=M+1
+
+  @FINISH1
+  0;JMP
+
+(POSITIVE1)
+  @SP
+  A=M
+  M=-1
+
+  @SP
+  M=M+1
+
+  @FINISH1
+  0;JMP
+
+(FINISH1)
       HACK
       end
 
@@ -169,24 +212,42 @@ A=M
 D=M
 
 @SP
-A=M-1
-D=D-M
+M=M-1
 
-@POSITIVE
+@SP
+A=M
+
+D=M-D
+
+@POSITIVE1
 D;JLT
 
-@NEGATIVE
-0;JMP
+@NEGATIVE1
+D;JGE
 
-(POSITIVE)
+(NEGATIVE1)
   @SP
-  A=M-1
-  M=1
-
-(NEGATIVE)
-  @SP
-  A=M-1
+  A=M
   M=0
+
+  @SP
+  M=M+1
+
+  @FINISH1
+  0;JMP
+
+(POSITIVE1)
+  @SP
+  A=M
+  M=-1
+
+  @SP
+  M=M+1
+
+  @FINISH1
+  0;JMP
+
+(FINISH1)
       HACK
       end
 
