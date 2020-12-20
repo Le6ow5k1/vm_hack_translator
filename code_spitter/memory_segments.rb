@@ -13,6 +13,7 @@ class CodeSpitter
     CONSTANT = 'constant'
     POINTER = 'pointer'
     STATIC = 'static'
+    TEMP = 'temp'
 
     module_function
 

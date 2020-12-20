@@ -11,15 +11,21 @@ class CodeSpitter
     def call(segment, arg)
       case segment
       when MemorySegments::CONSTANT
-        return push_constant_instructions(arg)
+        push_constant_instructions(arg)
       when MemorySegments::POINTER
-        return push_pointer_instructions(arg)
+        push_pointer_instructions(arg)
       when MemorySegments::STATIC
-        return push_static_instructions(arg)
-      end
+        push_static_instructions(arg)
+      else
+        base_address_label = MemorySegments.segment_to_base_address_label(segment)
 
-      base_address_label = MemorySegments.segment_to_base_address_label(segment)
-      push_instructions(base_address_label, arg)
+        case segment
+        when MemorySegments::TEMP
+          push_temp_instructions(base_address_label, arg)
+        else
+          push_instructions(base_address_label, arg)
+        end
+      end
     end
 
     private
@@ -27,7 +33,22 @@ class CodeSpitter
     def push_instructions(base_address_label, step_from_base)
       <<-HACK
 @#{base_address_label}
-A=M+#{step_from_base}
+D=M
+@#{step_from_base}
+A=D+A
+D=M
+
+#{persist_d_to_sp_instructions}
+#{advance_sp_instructions}
+      HACK
+    end
+
+    def push_temp_instructions(base_address_label, step_from_base)
+      <<-HACK
+@#{base_address_label}
+D=A
+@#{step_from_base}
+A=D+A
 D=M
 
 #{persist_d_to_sp_instructions}
