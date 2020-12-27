@@ -44,7 +44,9 @@ M=M+1
 // push local 3
 
 @LCL
-A=M+3
+D=M
+@3
+A=D+A
 D=M
 
 @SP
@@ -70,7 +72,9 @@ M=M+1
 // push temp 1
 
 @5
-A=M+1
+D=A
+@1
+A=D+A
 D=M
 
 @SP
@@ -171,16 +175,24 @@ M=M+1
       <<-HACK
 // pop argument 11
 
-@SP
-M=M-1
+@ARG
+D=M
+@11
+D=D+A
+
+@R13
+M=D
 
 @SP
-A=M
+A=M-1
 D=M
 
-@ARG
-A=M+11
+@R13
+A=M
 M=D
+
+@SP
+M=M-1
       HACK
       end
 
@@ -197,16 +209,24 @@ M=D
       <<-HACK
 // pop temp 2
 
-@SP
-M=M-1
+@5
+D=A
+@2
+D=D+A
+
+@R13
+M=D
 
 @SP
-A=M
+A=M-1
 D=M
 
-@5
-A=M+2
+@R13
+A=M
 M=D
+
+@SP
+M=M-1
       HACK
       end
 

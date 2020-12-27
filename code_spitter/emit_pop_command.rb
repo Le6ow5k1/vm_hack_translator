@@ -38,15 +38,9 @@ D=D+A
 @R13
 M=D
 
-@SP
-A=M-1
-D=M
-
-@R13
-A=M
-M=D
-
-#{decrement_sp_instructions}
+#{write_sp_to_d_instructions(true)}
+#{write_d_to_r_instructions(13)}
+#{decrement_sp_instructions.sub(/\s$/, '')}
       HACK
     end
 
@@ -60,15 +54,9 @@ D=D+A
 @R13
 M=D
 
-@SP
-A=M-1
-D=M
-
-@R13
-A=M
-M=D
-
-#{decrement_sp_instructions}
+#{write_sp_to_d_instructions(true)}
+#{write_d_to_r_instructions(13)}
+#{decrement_sp_instructions.sub(/\s$/, '')}
       HACK
     end
 
@@ -77,7 +65,7 @@ M=D
 
       <<-HACK
 #{decrement_sp_instructions}
-#{persist_sp_to_d_instructions}
+#{write_sp_to_d_instructions}
 @#{segment_name}
 M=D
       HACK
@@ -88,7 +76,7 @@ M=D
 
       <<-HACK
 #{decrement_sp_instructions}
-#{persist_sp_to_d_instructions}
+#{write_sp_to_d_instructions}
 @#{var_name}
 M=D
       HACK
@@ -101,11 +89,21 @@ M=M-1
       HACK
     end
 
-    def persist_sp_to_d_instructions
+    def write_sp_to_d_instructions(decrement_sp = false)
+      set_a_register = decrement_sp ? 'A=M-1' : 'A=M'
+
       <<-HACK
 @SP
-A=M
+#{set_a_register}
 D=M
+      HACK
+    end
+
+    def write_d_to_r_instructions(register_number)
+      <<-HACK
+@R#{register_number}
+A=M
+M=D
       HACK
     end
   end
