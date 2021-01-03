@@ -9,7 +9,7 @@ class Runner
     translated = if File.directory?(file_path)
                    Dir.glob("#{file_path}/*.vm").map(&method(:translate_file)).flatten
                  else
-                   transalate_file(file_path)
+                   translate_file(file_path)
                  end
 
     file_or_dir_name = extract_name(file_path)
