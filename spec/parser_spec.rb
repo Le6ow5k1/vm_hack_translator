@@ -41,5 +41,21 @@ describe Parser do
         is_expected.to eq(command: 'push', arg1: 'local', arg2: '11')
       end
     end
+
+    context 'label command' do
+      let(:line) { 'label ABC' }
+
+      it do
+        is_expected.to eq(command: 'label', arg1: 'ABC', arg2: nil)
+      end
+    end
+
+    context 'if-goto command' do
+      let(:line) { 'if-goto ABC' }
+
+      it do
+        is_expected.to eq(command: 'if-goto', arg1: 'ABC', arg2: nil)
+      end
+    end
   end
 end
