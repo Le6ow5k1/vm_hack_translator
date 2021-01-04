@@ -2,6 +2,7 @@
 
 require_relative 'code_spitter/emit_arithmetic_logical_command'
 require_relative 'code_spitter/emit_memory_access_command'
+require_relative 'code_spitter/emit_branching_command'
 
 # This class takes a parsed VM command and emits Hack assembly instructions
 # that implement that command on the Hack computer
@@ -23,10 +24,16 @@ class CodeSpitter
     push
   ].freeze
 
-  def initialize(file_path)
-    @file_path = file_path
+  BRANCHING_COMMANDS = %w[
+    label
+    goto
+    if-goto
+  ].freeze
+
+  def initialize(file_name)
     @emit_arithmetic_logical_command = EmitArithmeticLogicalCommand.new
     @emit_memory_access_command = EmitMemoryAccessCommand.new(file_name)
+    @emit_branching_command = EmitBranchingCommand.new(file_name)
   end
 
   def call(command:, arg1:, arg2:)
@@ -34,12 +41,8 @@ class CodeSpitter
       @emit_arithmetic_logical_command.call(command, arg1, arg2)
     elsif MEMORY_ACCESS_COMMANDS.include?(command)
       @emit_memory_access_command.call(command, arg1, arg2)
+    elsif BRANCHING_COMMANDS.include?(command)
+      @emit_branching_command.call(command, arg1, arg2)
     end
-  end
-
-  private
-
-  def file_name
-    @file_name ||= @file_path.split('/').last
   end
 end
