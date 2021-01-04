@@ -3,7 +3,7 @@
 # The purpose of this class is to parse a string which contains VM command
 class Parser
   COMMENT_PREFIX = '//'
-  INSTRUCTION_REGEX = %r{(?<command>[a-z-]+)\s*(?<arg1>\w*)\s*(?<arg2>\w*)}
+  INSTRUCTION_REGEX = %r{(?<command>[a-z-]+)\s*(?<arg1>[0-9a-zA-Z\-_\.]*)\s*(?<arg2>\w*)}
 
   def initialize(reader)
     @reader = reader

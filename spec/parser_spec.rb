@@ -57,5 +57,13 @@ describe Parser do
         is_expected.to eq(command: 'if-goto', arg1: 'ABC', arg2: nil)
       end
     end
+
+    context 'function command' do
+      let(:line) { 'function Main.fibonacci 0' }
+
+      it do
+        is_expected.to eq(command: 'function', arg1: 'Main.fibonacci', arg2: '0')
+      end
+    end
   end
 end
