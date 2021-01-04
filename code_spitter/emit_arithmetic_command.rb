@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CodeSpitter
-  class EmitArithmeticCommand < CodeSpitter::EmitBase
+  class EmitArithmeticCommand
     def call(args_number, operation)
       case args_number
       when 1 then one_arg_instructions(operation)

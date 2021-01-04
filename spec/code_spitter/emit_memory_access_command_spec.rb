@@ -16,8 +16,6 @@ describe CodeSpitter::EmitMemoryAccessCommand do
       let(:arg2) { '6' }
       let(:expected_instructions) do
       <<-HACK
-// push constant 6
-
 @6
 D=A
 
@@ -41,8 +39,6 @@ M=M+1
       let(:arg2) { '3' }
       let(:expected_instructions) do
       <<-HACK
-// push local 3
-
 @LCL
 D=M
 @3
@@ -69,8 +65,6 @@ M=M+1
       let(:arg2) { '1' }
       let(:expected_instructions) do
       <<-HACK
-// push temp 1
-
 @5
 D=A
 @1
@@ -97,8 +91,6 @@ M=M+1
       let(:arg2) { '0' }
       let(:expected_instructions) do
       <<-HACK
-// push pointer 0
-
 @THIS
 D=M
 
@@ -122,8 +114,6 @@ M=M+1
       let(:arg2) { '1' }
       let(:expected_instructions) do
       <<-HACK
-// push pointer 1
-
 @THAT
 D=M
 
@@ -148,8 +138,6 @@ M=M+1
       let(:arg2) { '1' }
       let(:expected_instructions) do
       <<-HACK
-// push static 1
-
 @Foo.1
 D=M
 
@@ -173,8 +161,6 @@ M=M+1
       let(:arg2) { '11' }
       let(:expected_instructions) do
       <<-HACK
-// pop argument 11
-
 @ARG
 D=M
 @11
@@ -207,8 +193,6 @@ M=M-1
       let(:arg2) { '2' }
       let(:expected_instructions) do
       <<-HACK
-// pop temp 2
-
 @5
 D=A
 @2
@@ -241,8 +225,6 @@ M=M-1
       let(:arg2) { '0' }
       let(:expected_instructions) do
       <<-HACK
-// pop pointer 0
-
 @SP
 M=M-1
 
@@ -266,8 +248,6 @@ M=D
       let(:arg2) { '1' }
       let(:expected_instructions) do
       <<-HACK
-// pop pointer 1
-
 @SP
 M=M-1
 
@@ -292,8 +272,6 @@ M=D
       let(:arg2) { '1' }
       let(:expected_instructions) do
       <<-HACK
-// pop static 1
-
 @SP
 M=M-1
 

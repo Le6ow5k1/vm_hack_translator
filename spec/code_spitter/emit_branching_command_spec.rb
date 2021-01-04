@@ -4,19 +4,16 @@ require_relative '../../code_spitter/emit_branching_command'
 
 describe CodeSpitter::EmitBranchingCommand do
   describe '#call' do
-    subject(:call) { described_class.new(file_name).call(command, arg1, arg2) }
+    subject(:call) { described_class.new(file_name).call(command, arg1) }
 
     let(:file_name) { 'some_file' }
     let(:arg1) { nil }
-    let(:arg2) { nil }
 
     context 'label' do
       let(:command) { 'label' }
       let(:arg1) { 'ABC' }
       let(:expected_instructions) do
       <<-HACK
-// label ABC
-
 (SOME_FILE_ABC)
       HACK
       end
@@ -31,8 +28,6 @@ describe CodeSpitter::EmitBranchingCommand do
       let(:arg1) { 'ABC' }
       let(:expected_instructions) do
       <<-HACK
-// goto ABC
-
 @SOME_FILE_ABC
 0;JEQ
       HACK
@@ -48,8 +43,6 @@ describe CodeSpitter::EmitBranchingCommand do
       let(:arg1) { 'ABC' }
       let(:expected_instructions) do
       <<-HACK
-// if-goto ABC
-
 @SP
 M=M-1
 

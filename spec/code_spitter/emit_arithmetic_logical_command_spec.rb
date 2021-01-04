@@ -4,17 +4,12 @@ require_relative '../../code_spitter/emit_arithmetic_logical_command'
 
 describe CodeSpitter::EmitArithmeticLogicalCommand do
   describe '#call' do
-    subject(:call) { described_class.new.call(command, arg1, arg2) }
-
-    let(:arg1) { nil }
-    let(:arg2) { nil }
+    subject(:call) { described_class.new.call(command) }
 
     context 'add command' do
       let(:command) { 'add' }
       let(:expected_instructions) do
       <<-HACK
-// add
-
 @SP
 M=M-1
 
@@ -41,8 +36,6 @@ M=D
       let(:command) { 'sub' }
       let(:expected_instructions) do
       <<-HACK
-// sub
-
 @SP
 M=M-1
 
@@ -69,8 +62,6 @@ M=D
       let(:command) { 'neg' }
       let(:expected_instructions) do
       <<-HACK
-// neg
-
 @SP
 A=M-1
 M=-D
@@ -86,8 +77,6 @@ M=-D
       let(:command) { 'eq' }
       let(:expected_instructions) do
       <<-HACK
-// eq
-
 @SP
 M=M-1
 
@@ -144,8 +133,6 @@ D;JNE
       let(:command) { 'gt' }
       let(:expected_instructions) do
       <<-HACK
-// gt
-
 @SP
 M=M-1
 
@@ -202,8 +189,6 @@ D;JLE
       let(:command) { 'lt' }
       let(:expected_instructions) do
       <<-HACK
-// lt
-
 @SP
 M=M-1
 
@@ -260,8 +245,6 @@ D;JGE
       let(:command) { 'and' }
       let(:expected_instructions) do
       <<-HACK
-// and
-
 @SP
 M=M-1
 
@@ -288,8 +271,6 @@ M=D
       let(:command) { 'or' }
       let(:expected_instructions) do
       <<-HACK
-// or
-
 @SP
 M=M-1
 
@@ -316,8 +297,6 @@ M=D
       let(:command) { 'not' }
       let(:expected_instructions) do
       <<-HACK
-// not
-
 @SP
 A=M-1
 M=!D

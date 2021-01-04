@@ -37,12 +37,25 @@ class CodeSpitter
   end
 
   def call(command:, arg1:, arg2:)
-    if ARITHMETIC_LOGICAL_COMMANDS.include?(command)
-      @emit_arithmetic_logical_command.call(command, arg1, arg2)
-    elsif MEMORY_ACCESS_COMMANDS.include?(command)
-      @emit_memory_access_command.call(command, arg1, arg2)
-    elsif BRANCHING_COMMANDS.include?(command)
-      @emit_branching_command.call(command, arg1, arg2)
-    end
+    result = command_comment(command, arg1, arg2)
+    result << "\n\n"
+
+    command_instructions =
+      if ARITHMETIC_LOGICAL_COMMANDS.include?(command)
+        @emit_arithmetic_logical_command.call(command)
+      elsif MEMORY_ACCESS_COMMANDS.include?(command)
+        @emit_memory_access_command.call(command, arg1, arg2)
+      elsif BRANCHING_COMMANDS.include?(command)
+        @emit_branching_command.call(command, arg1)
+      end
+    result << command_instructions
+
+    result
+  end
+
+  private
+
+  def command_comment(command, arg1, arg2)
+    +"// #{command} #{arg1} #{arg2}".sub(/\s+\z/, '')
   end
 end

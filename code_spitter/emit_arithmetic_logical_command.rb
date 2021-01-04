@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'emit_base'
 require_relative 'emit_arithmetic_command'
 require_relative 'emit_logical_command'
 
 class CodeSpitter
-  class EmitArithmeticLogicalCommand < CodeSpitter::EmitBase
+  class EmitArithmeticLogicalCommand
     def initialize
       super
 
@@ -13,11 +12,8 @@ class CodeSpitter
       @emit_logical_command = EmitLogicalCommand.new
     end
 
-    def call(command, arg1, arg2)
-      result = command_comment(command, arg1, arg2)
-      result << "\n\n"
-      result << send("#{command}_instructions")
-      result
+    def call(command)
+      send("#{command}_instructions")
     end
 
     private

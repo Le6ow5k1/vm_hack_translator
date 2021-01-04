@@ -1,25 +1,20 @@
 # frozen_string_literal: true
 
 class CodeSpitter
-  class EmitBranchingCommand < CodeSpitter::EmitBase
+  class EmitBranchingCommand
     def initialize(file_name)
       @file_name = file_name
     end
 
-    def call(command, arg1, arg2)
-      result = command_comment(command, arg1, arg2)
-      result << "\n\n"
-
-      result << case command
-                when 'label'
-                  label_instructions(arg1)
-                when 'goto'
-                  goto_instructions(arg1)
-                when 'if-goto'
-                  ifgoto_instructions(arg1)
-                end
-
-      result
+    def call(command, label_name)
+      case command
+      when 'label'
+        label_instructions(label_name)
+      when 'goto'
+        goto_instructions(label_name)
+      when 'if-goto'
+        ifgoto_instructions(label_name)
+      end
     end
 
     private
