@@ -13,7 +13,9 @@ class Runner
     translated << if File.directory?(file_path)
                     file_paths = Dir.glob("#{file_path}/*.vm")
                     file_paths
-                      .map { |p| translate_file(p, file_or_dir_name) }
+                      .map { |path| [path, extract_name(path)] }
+                      .sort { |(_path, name)| name == 'Sys' ? 0 : 1 }
+                      .map { |(path, name)| translate_file(path, name) }
                       .flatten
                   else
                     translate_file(file_path, file_or_dir_name)
