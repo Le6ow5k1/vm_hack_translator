@@ -57,7 +57,7 @@ D;#{negative_jmp}
 (POSITIVE#{@counter})
   @SP
   A=M
-  M=-1
+  M=1
 
   @SP
   M=M+1

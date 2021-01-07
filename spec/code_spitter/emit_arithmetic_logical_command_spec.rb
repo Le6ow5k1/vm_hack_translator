@@ -112,7 +112,7 @@ D;JNE
 (POSITIVE1)
   @SP
   A=M
-  M=-1
+  M=1
 
   @SP
   M=M+1
@@ -168,7 +168,7 @@ D;JLE
 (POSITIVE1)
   @SP
   A=M
-  M=-1
+  M=1
 
   @SP
   M=M+1
@@ -224,7 +224,7 @@ D;JGE
 (POSITIVE1)
   @SP
   A=M
-  M=-1
+  M=1
 
   @SP
   M=M+1
