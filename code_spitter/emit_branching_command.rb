@@ -2,10 +2,6 @@
 
 class CodeSpitter
   class EmitBranchingCommand
-    def initialize(file_name)
-      @file_name = file_name
-    end
-
     def call(command, label_name)
       case command
       when 'label'
@@ -21,13 +17,13 @@ class CodeSpitter
 
     def label_instructions(name)
       <<-HACK
-(#{output_label_name(name)})
+(#{name})
       HACK
     end
 
     def goto_instructions(label_name)
       <<-HACK
-@#{output_label_name(label_name)}
+@#{label_name}
 0;JEQ
       HACK
     end
@@ -41,13 +37,9 @@ M=M-1
 A=M
 D=M
 
-@#{output_label_name(label_name)}
+@#{label_name}
 D;JGT
       HACK
-    end
-
-    def output_label_name(original_label_name)
-      "#{@file_name.upcase}_#{original_label_name}"
     end
   end
 end
