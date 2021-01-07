@@ -2,33 +2,33 @@
 
 class CodeSpitter
   class EmitBranchingCommand
-    def call(command, label_name)
+    def call(command, label_name, function_name = nil)
       case command
       when 'label'
-        label_instructions(label_name)
+        label_instructions(label_name, function_name)
       when 'goto'
-        goto_instructions(label_name)
+        goto_instructions(label_name, function_name)
       when 'if-goto'
-        ifgoto_instructions(label_name)
+        ifgoto_instructions(label_name, function_name)
       end
     end
 
     private
 
-    def label_instructions(name)
+    def label_instructions(name, function_name)
       <<-HACK
-(#{name})
+(#{output_label_name(name, function_name)})
       HACK
     end
 
-    def goto_instructions(label_name)
+    def goto_instructions(label_name, function_name)
       <<-HACK
-@#{label_name}
+@#{output_label_name(label_name, function_name)}
 0;JEQ
       HACK
     end
 
-    def ifgoto_instructions(label_name)
+    def ifgoto_instructions(label_name, function_name)
       <<-HACK
 @SP
 M=M-1
@@ -37,9 +37,13 @@ M=M-1
 A=M
 D=M
 
-@#{label_name}
+@#{output_label_name(label_name, function_name)}
 D;JGT
       HACK
+    end
+
+    def output_label_name(original_label_name, function_name)
+      "#{function_name}$#{original_label_name}"
     end
   end
 end

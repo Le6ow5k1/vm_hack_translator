@@ -45,7 +45,7 @@ class CodeSpitter
     @emit_call_command = EmitCallCommand.new
     @emit_return_command = EmitReturnCommand.new
 
-    @function_name = nil
+    @current_function_name = nil
     @function_call_number = 0
   end
 
@@ -59,21 +59,25 @@ class CodeSpitter
       elsif MEMORY_ACCESS_COMMANDS.include?(command)
         @emit_memory_access_command.call(command, arg1, arg2)
       elsif BRANCHING_COMMANDS.include?(command)
-        @emit_branching_command.call(command, arg1)
+        @emit_branching_command.call(command, arg1, @current_function_name)
       elsif command == FUNCTION_COMMAND
-        @function_name = arg1
+        @current_function_name = arg1
         @function_call_number = 0
         @emit_function_command.call(arg1, arg2)
       elsif command == CALL_COMMAND
-        call_result = @emit_call_command.call(arg1, arg2, @function_call_number)
+        call_result = @emit_call_command.call(
+          function_name: arg1,
+          outer_function_name: @current_function_name,
+          args_number: arg2,
+          call_number: @function_call_number
+        )
         @function_call_number += 1
         call_result
       elsif command == RETURN_COMMAND
-        @function_name = nil
-        @function_call_number = 0
         @emit_return_command.call
       end
     result << command_instructions
+    result << "\n\n"
 
     result
   end

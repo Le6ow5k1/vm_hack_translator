@@ -2,10 +2,10 @@
 
 class CodeSpitter
   class EmitCallCommand
-    def call(function_name, args_number, call_number)
+    def call(function_name:, outer_function_name:, args_number:, call_number:)
       result = +''
 
-      return_label = return_label_name(function_name, call_number)
+      return_label = return_label_name(outer_function_name, call_number)
 
       result << push(return_label)
       result << push_segment_addr('LCL')
